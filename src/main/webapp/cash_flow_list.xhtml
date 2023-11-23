@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="default_template.xhtml">
+    <ui:define name="content5">
+        <h:head>
+            <title>Nakit Akış Listesi</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    background-color: #f4f4f4;
+                    padding: -70px;
+                }
+
+                .content1 {
+                    margin: 0 auto;
+                    width: 99%;
+                }
+
+                .table-container {
+
+                    margin-top: 0px;
+                    margin-left: 0px;
+
+                }
+
+                .center-text {
+                    text-align: center;
+                }
+
+                .search-container {
+                    display: flex;
+                    justify-content: flex-end;
+                    align-items: center;
+                    margin-bottom: 10px;
+                }
+
+                .cash-flow-list-title {
+                    text-align: center;
+                    /*margin-left: 150px;*/
+                }
+
+                .smallButton {
+                    font-size: 10px;  /* Font size'ı küçülttük */
+                    padding: 2px 4px;  /* İstediğiniz boyuta göre bu değerleri değiştirebilirsiniz */
+                    background-color: red;  /* Butonun arkaplanını kırmızı yaptık */
+                    color: white;  /* Buton üzerindeki yazının rengi beyaz */
+                    border: none;  /* Kenarlık kaldırıldı */
+                }
+
+            </style>
+        </h:head>
+        <h:body>
+            <div class="content1">
+
+                <div class="center-text">
+                    <h1 class="cash-flow-list-title">Nakit Akış Listesi</h1>
+                </div>
+                <h:form id="mainForm">
+                    <div class="search-container">
+
+                        <!-- Başlangıç Tarihi -->
+                        <div class="ui-inputgroup">
+                        <div class="ui-inputgroup-addon"><i class="pi pi-calendar"></i></div>
+                        <p:calendar id="startDate"
+                                    value="#{cashFlowListBean.startDate}"
+                                    placeholder="Başlangıç - dd/MM/yyyy"
+                                    pattern="dd/MM/yyyy"
+                                    navigator="true"
+                                    yearRange="c-100:c"
+                                    required="true" />
+                        <p:message for="startDate" display="icon,text" />
+                        </div>
+                        <!-- Bitiş Tarihi -->
+
+
+
+                        <div class="ui-inputgroup">
+                        <div class="ui-inputgroup-addon"><i class="pi pi-calendar"></i></div>
+                        <p:calendar id="endDate"
+                                    value="#{cashFlowListBean.endDate}"
+                                    placeholder="Bitiş - dd/MM/yyyy"
+                                    pattern="dd/MM/yyyy"
+                                    navigator="true"
+                                    yearRange="c-100:c"
+
+                                    required="true" />
+                        <p:message for="endDate" display="icon,text" />
+                        </div>
+
+                        <!-- Ara butonu -->
+                        <p:commandButton ajax="true"
+                                         value="Listele"
+                                         icon="pi pi-search"
+                                         action="#{cashFlowListBean.searchTransactionsByDateRange()}"
+                                         update="cashFlowTable"
+                                         process="@form"
+                                         style="background-color: royalblue; color: white;"   />
+                    </div>
+
+
+
+                    <div class="table-container">
+                        <p:dataTable id="cashFlowTable" var="transaction" value="#{cashFlowListBean.filteredGeneralTransactions}" rows="5"
+                                     paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom"
+                                     emptyMessage="No transaction found">
+                            <!-- Columns -->
+
+                            <p:column headerText="Tarih">
+                                <h:outputText value="#{transaction.date}" />
+                            </p:column>
+
+                            <p:column headerText="Müşteri Numarası">
+                                <h:outputText value="#{transaction.customerId}" />
+                            </p:column>
+
+                            <p:column headerText="Müşteri Adı Soyadı">
+                                <h:outputText value="#{transaction.customer.name} #{transaction.customer.surname}" />
+                            </p:column>
+
+                            <p:column headerText="İşlem Tipi">
+                                <h:outputText value="#{transaction.route}" />
+                            </p:column>
+
+                            <p:column headerText="Tutar">
+                                <h:outputText value="#{transaction.amount}" />
+                            </p:column>
+
+
+                            <p:column headerText="İptal">
+                                <p:commandButton value="İptal" icon="pi pi-times"
+                                                 actionListener="#{cashFlowListBean.cancelTransaction(transaction)}"
+                                                 update=":mainForm:cashFlowTable" styleClass="smallButton"
+                                                 rowKey="#{transaction}"
+                                                 rendered="#{not transaction.canceled}" />
+                            </p:column>
+
+                        </p:dataTable>
+                    </div>
+                </h:form>
+            </div>
+        </h:body>
+    </ui:define>
+</ui:composition>
+</html>

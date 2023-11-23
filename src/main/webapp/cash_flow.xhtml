@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core">
+
+
+<ui:composition template="default_template.xhtml">
+    <ui:define name="content5">
+        <h:head>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+
+            <title>Nakit Akış</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    background-color: #f4f4f4;
+                    padding: -70px;
+                }
+
+
+
+            </style>
+        </h:head>
+        <h:body>
+            <h:form>
+                <p:panel style="width:450px;">
+                    <div >
+                        <h1>Nakit Akış</h1>
+
+                        <div class="ui-inputgroup" style="margin-bottom: 10px">
+                            <div class="ui-inputgroup-addon"><i class="pi pi-calendar"></i></div>
+                            <p:inputMask id="date"  placeholder= "Tarih Giriniz!"
+                                         style="width: 90%;" mask="99/99/9999"/>
+                        </div>
+
+                        <h:form>
+                            <p:growl id="msgs" showDetail="true" skipDetailIfEqualsSummary="true"/>
+
+                            <p:panel header="İşlem Türünü Belirtiniz" style="margin-bottom:10px; text-align: center">
+                                <!--                        <h:panelGrid columns="1" cellpadding="5">-->
+                                <!--                            <p:outputLabel for="country" value="Country: "/>-->
+                                <p:selectOneMenu id="alış-satış" value="#{fund_transactionBean.routeInput}" style="width:150px">
+                                    <!--                                <p:ajax listener="#{basicView.onCountryChange}" update="city"/>-->
+                                    <f:selectItem itemLabel="Nakit Yatırma" itemValue="Alış" noSelectionOption="true"/>
+                                    <f:selectItem itemLabel="Nakit Çekme" itemValue="Satış" noSelectionOption="true"/>
+                                    <f:selectItems value="#{cash_transactionBean.routeInput}"/>
+                                </p:selectOneMenu>
+
+
+                            </p:panel>
+                        </h:form>
+
+                        <div class="ui-inputgroup" style="margin-bottom: 10px;">
+                            <div class="ui-inputgroup-addon"><i class="pi pi-user"></i></div>
+
+                            <p:selectOneMenu id="customerId" value="#{cash_transactionBean.customerId}" style="width: 90%;
+                                    text-align: center;" label="CustomerId's"
+                                             filter="true" filterMatchMode="startsWith" panelStyle="width: 400px;"
+                                             scrollHeight="250">
+
+                                <f:selectItem itemLabel="Müşteri Numarasını Seçiniz!" />
+                                <f:selectItems value="#{cash_transactionBean.customerList}" var="customer"
+                                               itemLabel="#{customer.customerID} - #{customer.name}  #{customer.surname}" itemValue="#{customer.customerID}" />
+                                <p:ajax update="customerId" listener="#{cash_transactionBean.customerId}" />
+                            </p:selectOneMenu>
+
+                        </div>
+
+
+
+                        <div class="ui-inputgroup" style="margin-bottom: 10px">
+                            <div class="ui-inputgroup-addon"><i class="pi pi-wallet"></i></div>
+                            <p:inputText id="balance"  placeholder="Müşteri Hesap Bakiyesi!"
+                                         style="width: 90%;"  />
+                        </div>
+
+                        <div class="ui-inputgroup" style="margin-bottom: 10px">
+                            <div class="ui-inputgroup-addon"><i class="fas fa-money-bill-alt"></i></div>
+                            <p:inputText id="amount"  value="#{cash_transactionBean.amount}" placeholder="İşlem Yapmak İstediğiniz Tutarı Giriniz!"
+                                         style="width: 90%;"/>
+                        </div>
+
+
+                        <div style="display: flex; justify-content: center; align-items: center;">
+                            <p:commandButton ajax="false" value="Kaydet" icon="pi pi-save"
+                                             iconPos="right"
+                                             process="@this"
+                                             styleClass="button ui-button-text-icon-primary"
+                                             update="@this" style="margin-right: 10px; background-color: royalblue;
+                                             color:white;" />
+
+
+
+                            <p:commandButton type="button" value="İptal" icon="pi pi-times" iconPos="right"
+                                             onclick="window.location.href = 'home.xhtml';"
+                                             styleClass="button ui-button-danger" style="margin-left: 10px;" />
+                        </div>
+                    </div>
+                </p:panel>
+            </h:form>
+
+        </h:body>
+    </ui:define>
+</ui:composition>
+
+
+</html>

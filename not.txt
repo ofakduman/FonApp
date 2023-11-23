@@ -1,0 +1,18 @@
+Gönderdiğiniz bilgilere göre PrimeFaces sürümü 10.0.0 ve JSF sürümü 2.2.9'u kullanıyorsunuz. Bu iki sürüm genellikle birlikte çalışabilse de bazı özelliklerde veya bileşenlerde uyumsuzluklar olabileceğini unutmamanız önemlidir.
+
+Eğer <p:inputSecret> tag'ı PrimeFaces 10.0.0'da yer alıyorsa (ki olması gereken bu), bu hatanın oluşma sebebi başka bir neden olabilir.
+
+Aşağıda bazı kontrol adımlarını ve önerileri bulabilirsiniz:
+
+Maven Temizliği ve Yeniden İnşa: Maven projesinde bazen bağımlılık veya yapılandırma değişikliklerinin tam olarak yansıtılmadığı durumlar olabilir. Bu yüzden projeyi temizleyip yeniden inşa etmekte fayda var. Bunun için terminal veya komut satırınızda projenizin ana klasöründe aşağıdaki komutları çalıştırabilirsiniz:
+
+Copy code
+mvn clean install
+----- IDE Yeniden Başlatma: Kullandığınız IDE'nin (Eclipse, IntelliJ IDEA, NetBeans vb.) bazen eski sınıf yükleyici bilgilerini tuttuğu görülebilir. Bu nedenle IDE'nizi tamamen kapatıp yeniden başlatmayı deneyin.
+
+Sunucunuzu Yeniden Başlatın: Eğer sunucunuzda eski bir sürümdeki PrimeFaces bileşenleri hala önbellekte ise, bu da hatalara neden olabilir. Bu yüzden sunucunuzu (Tomcat, WildFly, GlassFish vb.) yeniden başlatın.
+
+------ PrimeFaces ve JSF Sürümleri: PrimeFaces 10.0.0, JSF 2.3 ile daha uyumlu olabilir. Eğer projenizde JSF 2.3 sürümüne geçme olanağınız varsa, bu sürüme geçmeyi deneyebilirsiniz. Ancak bu, projenizdeki diğer bileşenlerle veya kodlarla uyumsuzluklara neden olabilir, bu nedenle dikkatli olun.
+
+
+Bu adımları takip ettikten sonra hala sorun yaşıyorsanız, sunucunuzun loglarındaki detaylı hata mesajını paylaşabilirseniz, sorunun kaynağını daha iyi belirleyebiliriz.

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core">
+
+
+<ui:composition template="default_template.xhtml">
+    <ui:define name="content5">
+        <h:head>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+
+            <title>FundTransactionPage</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    background-color: #f4f4f4;
+                    padding: -70px;
+                }
+                
+            </style>
+        </h:head>
+
+        <h:body>
+            <h:form id="transactionForm">
+                <p:panel id="registerPanel" style="width:450px;">
+                    <div>
+                        <h1 style="text-align: center">Fon Alım Satım</h1>
+
+
+                        <h:form>
+                            <p:growl id="msgs" showDetail="true" skipDetailIfEqualsSummary="true"/>
+
+                            <p:panel header="İşlem Türünü Belirtiniz" style="margin-bottom:10px; text-align: center">
+                                <!--                        <h:panelGrid columns="1" cellpadding="5">-->
+                                <!--                            <p:outputLabel for="country" value="Country: "/>-->
+                                <p:selectOneMenu id="alış-satış" value="#{fund_transactionBean.routeInput}" style="width:180px">
+                                    <!--                                <p:ajax listener="#{basicView.onCountryChange}" update="city"/>-->
+                                    <f:selectItem itemLabel="İşlem Türü Seçiniz!" itemValue="İşlem Seçimi" noSelectionOption="true"/>
+                                    <f:selectItem itemLabel="Alış" itemValue="Alış" noSelectionOption="true"/>
+                                    <f:selectItem itemLabel="Satış" itemValue="Satış" noSelectionOption="true"/>
+                                    <f:selectItems value="#{fund_transactionBean.routeInput}"/>
+                                </p:selectOneMenu>
+
+
+                            </p:panel>
+                        </h:form>
+                        <!--            </div>-->
+
+                        <!--            <div class="ui-inputgroup" style="margin-bottom: 10px">-->
+                        <!--                <div class="ui-inputgroup-addon"><i class="	fas fa-barcode"></i></div>-->
+                        <!--                <p:inputText id ="fundCode" value="#{fund_transactionBean.fundCode}" placeholder="Fon Kodunu Giriniz!"-->
+                        <!--                             style="text-align: center; width: 90%;"/>-->
+                        <!--            </div>-->
+                        <!--            <div class="ui-inputgroup" style="margin-bottom: 10px">-->
+                        <!--                <div class="ui-inputgroup-addon"><i class="fas fa-barcode"></i></div>-->
+                        <!--                <p:inputText id="customerId" value="#{fund_transactionBean.customerId}" placeholder="Müşteri Numarasını Giriniz!"-->
+                        <!--                             style="text-align: center; width: 90%;" maxlength="12"  ></p:inputText>-->
+
+                        <!--            </div>-->
+
+
+
+
+
+                        <div class="ui-inputgroup" style="margin-bottom: 10px;">
+                            <div class="ui-inputgroup-addon"><i class="pi pi-user"></i></div>
+
+                            <p:selectOneMenu id="customerId" value="#{fund_transactionBean.customerId}" style="width: 90%;
+                                    text-align: center;" label="CustomerId's"
+                                             filter="true" filterMatchMode="startsWith" panelStyle="width: 400px;"
+                                             scrollHeight="250">
+
+                                <f:selectItem itemLabel="Müşteri Numarasını Seçiniz!" />
+                                <f:selectItems value="#{fund_transactionBean.customerList}" var="customer"
+                                               itemLabel="#{customer.customerID} - #{customer.name}  #{customer.surname}" itemValue="#{customer.customerID}" />
+                                <p:ajax update="customerId" listener="#{fund_transactionBean.customerId}" />
+                            </p:selectOneMenu>
+
+
+
+                        </div>
+
+                        <!--            <div class="card">-->
+                        <!--                <h:form>-->
+                        <!--                    <p:growl id="msgs" showDetail="true" skipDetailIfEqualsSummary="true"/>-->
+
+                        <!--                    <h5>Toggleable</h5>-->
+                        <!--                    <p:fieldset legend="Header" toggleable="true" toggleSpeed="500">-->
+                        <!--                        <p:ajax event="toggle" listener="#{fieldsetView.handleToggle}" update="msgs"/>-->
+                        <!--                        <p class="m-0">-->
+                        <!--                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,-->
+                        <!--                            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum-->
+                        <!--                            dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.-->
+                        <!--                        </p>-->
+                        <!--                    </p:fieldset>-->
+                        <!--                </h:form>-->
+                        <!--            </div>-->
+
+
+
+                        <div class="ui-inputgroup" style="margin-bottom: 10px;">
+                            <div class="ui-inputgroup-addon"><i class="pi pi-list"></i></div>
+
+                            <p:selectOneMenu id="fundCode" value="#{fund_transactionBean.fundCode}" style="width: 90%;
+                                    text-align: center;" label="FundCodes"
+                                             filter="true" filterMatchMode="startsWith" panelStyle="width: 400px;"
+                                             scrollHeight="250">
+
+                                <f:selectItem itemLabel="İşlem Yapmak İstediğiniz Fonu Seçiniz!" />
+                                <f:selectItems value="#{fund_transactionBean.fundList}" var="fund"
+                                               itemLabel="#{fund.fundCode} - #{fund.fundName}" itemValue="#{fund.fundCode}" />
+                                <p:ajax update="fundCode" listener="#{fund_transactionBean.fundCode}" />
+                            </p:selectOneMenu>
+
+                        </div>
+
+
+
+
+                        <div class="ui-inputgroup" style="margin-bottom: 10px">
+                            <div class="ui-inputgroup-addon"><i class="pi pi-check"></i></div>
+                            <p:inputText id="amount" value="#{fund_transactionBean.amount}" placeholder="İşlem Yapmak İstediğiniz Fon Miktarını Giriniz!"
+                                         style="width: 90%;"/>
+                        </div>
+
+
+
+
+                        <div style="display: flex; justify-content: center; align-items: center;">
+                            <p:commandButton ajax="false" value="Kaydet" icon="pi pi-save" iconPos="right"
+                                             action="#{fund_transactionBean.createTransaction}"
+                                             process="@this route fundCode customerId amount"
+                                             update="transactionForm errorMessages"
+                                             style="display: block; margin-top: 10px; color: white; background-color: royalblue" />
+
+                            <p:commandButton type="button" value="İptal" icon="pi pi-times" iconPos="right"
+                                             onclick="window.location.href = 'home.xhtml';"
+                                             styleClass="button ui-button-danger" style="margin-top:10px; margin-left: 10px;" />
+
+                            <p:messages id="errorMessages" showDetail="false" autoUpdate="true" closable="true" />
+
+                            <!--                <p:commandButton type="button" value="İptal" icon="pi pi-times" iconPos="right"-->
+                            <!--                             onclick="window.location.href = 'home.xhtml';"-->
+                            <!--                             styleClass="button ui-button-danger" style="margin-left: 10px;" />-->
+                        </div>
+                    </div>
+                </p:panel>
+            </h:form>
+
+        </h:body>
+    </ui:define>
+</ui:composition>
+</html>
+

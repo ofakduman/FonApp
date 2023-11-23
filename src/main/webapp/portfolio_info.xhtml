@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="default_template.xhtml">
+    <ui:define name="content5">
+        <h:head>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+            <title>Portföy</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    background-color: #f4f4f4;
+                    padding: -70px;
+                }
+            </style>
+        </h:head>
+        <h:body>
+            <h:form id="mainForm">
+                <p:panel style="width:1200px;">
+                    <div>
+                        <h1 style="text-align: center;">Portföy</h1>
+                        <div class="ui-inputgroup" style="margin-bottom: 10px;">
+                            <div class="ui-inputgroup-addon"><i class="pi pi-user"></i></div>
+                            <p:selectOneMenu id="customerId" value="#{portfolioBean.customerId}"
+                                             style="width: 90%; text-align: center;" label="CustomerId's"
+                                             filter="true" filterMatchMode="startsWith" panelStyle="width: 400px;"
+                                             scrollHeight="250">
+                                <f:selectItem itemLabel="Müşteri Numarasını Seçiniz!" />
+                                <f:selectItems value="#{portfolioBean.customerList}" var="customer"
+                                               itemLabel="#{customer.customerID} - #{customer.name}  #{customer.surname}"
+                                               itemValue="#{customer.customerID}" />
+                                <p:ajax process="@this" event="valueChange"
+                                        update="balance fundTradeTable"
+                                        listener="#{portfolioBean.getCustomerBalanceFunc()}" />
+                            </p:selectOneMenu>
+                        </div>
+
+                        <div class="ui-inputgroup" style="margin-bottom: 10px">
+                            <div class="ui-inputgroup-addon"><i class="pi pi-check"></i></div>
+                            <p:inputText id="balance" value="#{portfolioBean.customerBalance}"  disabled="true"
+                                         style="width: 90%;"/>
+                        </div>
+
+                        <div class="table-container">
+                            <p:dataTable id="fundTradeTable" var="fund_stock" value="#{portfolioBean.fundStockList}" rows="5"
+                                         paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom"
+                                         emptyMessage="No fund found">
+                                <p:column headerText="Fon Kodu">
+                                    <h:outputText value="#{fund_stock.fundCode}" />
+                                </p:column>
+
+                                <p:column headerText="Fon Sayısı">
+                                    <h:outputText value="#{fund_stock.amount}" />
+                                </p:column>
+
+                                <p:column headerText="Fon fiyat değeri">
+                                    <h:outputText value="#{fund_stock.totalPrice}" />
+                                </p:column>
+
+                                <p:column headerText="Button">
+                                    <p:commandButton value="Button" icon="pi pi-times"
+                                                     actionListener="#{fundTradeListBean.cancelTransaction(fund_transaction)}"
+                                                     update="fundTradeTable" styleClass="smallButton"
+                                                     rowKey="#{fund_transaction}" />
+
+                                </p:column>
+
+                            </p:dataTable>
+
+                            <div style="display: flex; justify-content: center; align-items: center;">
+                                <p:chart type="pie" model="#{portfolioBean.pieModel}" style="width:1000px;height:500px" />
+                            </div>
+
+                        </div>
+                    </div>
+                </p:panel>
+
+            </h:form>
+        </h:body>
+    </ui:define>
+</ui:composition>
+</html>

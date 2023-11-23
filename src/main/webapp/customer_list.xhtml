@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="default_template.xhtml">
+    <ui:define name="content5">
+        <h:head>
+            <title>Müşteri Listesi</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    background-color: #f4f4f4;
+                    padding: -70px;
+                }
+
+                .content1 {
+                    margin: 0 auto;
+                    width: 99%;
+                }
+
+                .table-container {
+
+                    margin-top: 0px;
+                    margin-left: 0px;
+
+                }
+
+                .center-text {
+                    text-align: center;
+                }
+
+                .search-container {
+                    display: flex;
+                    justify-content: flex-end;
+                    align-items: center;
+                    margin-bottom: 10px;
+                }
+
+                .search-input {
+                    width: 200px;
+                    margin-right: 10px;
+                }
+                .customer-list-title {
+                    text-align: center;
+                    /*margin-left: 150px;*/
+                }
+
+                .smallButton {
+                    font-size: 0px;
+                    padding: 0px 0px;
+                }
+            </style>
+        </h:head>
+        <h:body>
+            <div class="content1">
+
+                <div class="center-text">
+                    <h1 class="customer-list-title">Müşteri Listesi</h1>
+                </div>
+                <h:form id="mainForm">
+                    <div class="search-container">
+                        <p:inputText id="searchInput" value="#{customerListBean.searchText}" placeholder="Müşteri ara..."
+                                     styleClass="search-input" />
+                        <p:commandButton ajax="true" value="Ara" icon="pi pi-search"
+                                         action="#{customerListBean.searchCustomers()}"
+                                         update="customerTable"
+                                         style="background-color: royalblue; color:white;"   />
+
+                    </div>
+
+
+                    <div class="table-container">
+                        <p:dataTable id="customerTable" var="customer" value="#{customerListBean.filteredCustomers}" rows="5"
+                                     paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom"
+                                     emptyMessage="No customers found">
+                            <!-- Columns -->
+                            <!-- ... (Diğer kolonlarınız) ... -->
+
+                            <!-- Columns -->
+
+                            <p:column headerText="Müşteri Numarası">
+                                <h:outputText value="#{customer.customerID}" />
+                            </p:column>
+
+                            <p:column headerText="Ad-Soyad">
+                                <h:outputText value="#{customer.name} #{customer.surname}" />
+                            </p:column>
+
+                            <p:column headerText="TC Numarası">
+
+                                <h:outputText value="#{customer.TCNO}" />
+                            </p:column>
+
+                            <p:column headerText="Telefon Numarası">
+                                <h:outputText value="#{customer.phoneNumber}" />
+                            </p:column>
+
+                            <p:column headerText="Email">
+                                <h:outputText value="#{customer.email}" />
+                            </p:column>
+
+                            <p:column headerText="Doğum Tarihi">
+                                <h:outputText value="#{customer.birthDate}" />
+                            </p:column>
+
+                            <p:column headerText="Doğum Yeri">
+                                <h:outputText value="#{customer.placeOfBirth}" />
+                            </p:column>
+
+                            <p:column headerText="Adres">
+                                <h:outputText value="#{customer.address}" />
+                            </p:column>
+                            <p:column headerText="Güncelle">
+                                <p:commandButton value="Güncelle" icon="pi pi-pencil"
+                                                 actionListener="#{customerListBean.editCustomer(customer)}"
+                                                 oncomplete="PF('editDialogVar').show()" update=":dlg2Form"
+                                                 styleClass="smallButton" style="background-color: royalblue; color: white"/>
+                            </p:column>
+                        </p:dataTable>
+                    </div>
+                    <p:remoteCommand name="invokeSearch" actionListener="#{customerListBean.searchCustomers()}" update="customerTable" />
+
+                </h:form> <!-- Form sonu -->
+                <!-- Dialog -->
+                <p:dialog header="Müşteri Bilgilerini Güncelle" widgetVar="editDialogVar" minHeight="40" width="500" showEffect="fade" modal="true" headerStyle="text-align:center;">
+                    <h:form id="dlg2Form">
+                        <!--                        <p:panelGrid columns="2" cellpadding="5">-->
+
+
+                        <!-- Ad Bilgisi -->
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <p:outputLabel for="nameInputDlg" value="Ad:" style="width:150px; text-align:right;" />
+                            <p:inputText id="nameInputDlg" value="#{customerListBean.selectedCustomer.name}" required="true" />
+                        </div>
+
+
+                        <!--                        <p:inputText id="nameInputDlg" value="#{customerListBean.selectedCustomer.name}" required="true" />-->
+                        <br/>
+
+                        <!-- Ad Bilgisi -->
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <p:outputLabel for="surnameInputDlg" value="Soyad:" style="width:150px; text-align:right;" />
+                            <p:inputText id="surnameInputDlg" value="#{customerListBean.selectedCustomer.surname}" required="true" />
+                        </div>
+
+                        <!-- TC Numarası Bilgisi -->
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <p:outputLabel for="tcNoInputDlg" value="TC Numarası:" style="width:150px; text-align:right;" />
+                            <p:inputMask id="tcNoInputDlg" value="#{customerListBean.selectedCustomer.TCNO}" placeholder="TC Numaranızı Giriniz!" mask="99999999999" validateMask="true" required="true" />
+                        </div>
+
+                        <!-- Telefon Numarası Bilgisi -->
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <p:outputLabel for="phoneNumberInputDlg" value="Telefon Numarası:" style="width:170px; text-align:right;" />
+                            <div style="flex-grow: 1; text-align:right;">
+                                <p:inputMask id="phoneNumberInputDlg" value="#{customerListBean.selectedCustomer.phoneNumber}" placeholder="Telefon Numaranızı Giriniz!" style="width: 70%;" mask="(999) 999-9999" validateMask="true" required="true" />
+                            </div>
+                        </div>
+
+
+
+
+                        <!-- Email Bilgisi -->
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <p:outputLabel for="emailInputDlg" value="Email:" style="width:150px; text-align:right;" />
+                            <p:inputText id="emailInputDlg" value="#{customerListBean.selectedCustomer.email}" required="true" />
+                        </div>
+
+                        <!-- Doğum Tarihi Bilgisi -->
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <p:outputLabel for="birthDateInputDlg" value="Doğum Tarihi:" style="width:150px; text-align:right;" />
+                            <p:calendar yearRange="c-100:c" navigator="true" id="birthDateInputDlg" value="#{customerListBean.date}" required="true" pattern="dd/MM/yyyy" placeholder="Doğum Tarihinizi Giriniz!"/>
+                        </div>
+
+                        <!-- Doğum Yeri Bilgisi -->
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <p:outputLabel for="placeOfBirthInputDlg" value="Doğum Yeri:" style="width:150px; text-align:right;" />
+                            <p:inputText id="placeOfBirthInputDlg" value="#{customerListBean.selectedCustomer.placeOfBirth}" required="true" />
+                        </div>
+
+
+
+
+                        <!-- Adres Bilgisi -->
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <p:outputLabel for="addressInputDlg" value="Adres:" style="width:150px; text-align:right;" />
+                            <p:inputTextarea id="addressInputDlg" value="#{customerListBean.selectedCustomer.address}" required="true" rows="3" />
+                        </div>
+
+
+
+
+
+                        <!-- Güncelle Butonu -->
+                        <div style="text-align: right; margin-top: 10px;">
+                            <p:commandButton value="Güncelle" action="#{customerListBean.updateCustomer()}" style="color:white; background-color: royalblue "
+                                             oncomplete="if (!args.validationFailed) { PF('editDialogVar').hide(); invokeSearch(); }" />
+                        </div>
+                    </h:form>
+                </p:dialog>
+            </div>
+        </h:body>
+    </ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="default_template.xhtml">
+    <ui:define name="content5">
+        <h:head>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+
+            <title>Fund Registration</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    background-color: #f4f4f4;
+                }
+
+                .content1 {
+                    margin: 0 auto;
+                    width: 99%;
+                    text-align: center;
+
+                }
+                .panel1{
+                    width: 450px;
+                    margin-left: auto;
+                    margin-right: auto;
+                }
+
+            </style>
+        </h:head>
+
+        <h:body>
+            <div class="content1">
+                <h:form id="registerForm" novalidate="novalidate">
+                    <p:panel styleClass="panel1">
+
+                    <h1>Yeni Fon Kayıt</h1>
+
+                    <div class="ui-inputgroup" style="margin-bottom: 10px">
+                        <div class="ui-inputgroup-addon"><i class="	fab fa-btc"></i></div>
+                        <p:inputText id="fundName" value="#{fund_registerBean.fundName}" placeholder="Fon Adını Giriniz!"
+                                     style="width: 90%; " required="true" requiredMessage="boş bırakılamaz"/>
+                        </div>
+
+                        <div class="ui-inputgroup" style="margin-bottom: 10px">
+                            <div class="ui-inputgroup-addon"><i class="fas fa-barcode"></i></div>
+
+                            <p:inputMask id="fundCode" value="#{fund_registerBean.fundCode}" mask="AAA" placeholder="XXX"
+                                         style="width: 90%;">
+
+                            </p:inputMask>
+                        </div>
+
+
+
+                        <div class="ui-inputgroup" style="margin-bottom: 10px">
+                            <div class="ui-inputgroup-addon"><i class="fas fa-barcode"></i></div>
+                            <p:inputMask id="fundIsinCode" value="#{fund_registerBean.fundIsinCode}" mask="TRYCUHE999999" placeholder="TRYCUHE"
+                                         style="width: 90%;" maxlength="12"  >
+                            </p:inputMask>
+
+
+                        </div>
+
+
+                        <div class="ui-inputgroup" style="margin-bottom: 10px">
+                            <div class="ui-inputgroup-addon"><i class="fas fa-clipboard-list"></i></div>
+                            <p:inputText id="fundType" value="#{fund_registerBean.fundType}" placeholder="Fon Tipini Giriniz!"
+                                         style="width: 90%;"/>
+                        </div>
+
+
+                        <div class="ui-inputgroup" style="margin-bottom: 10px;">
+                            <div class="ui-inputgroup-addon"><i class="	fas fa-dollar-sign"></i></div>
+                            <p:inputText id="fundPrice" value="#{fund_registerBean.fundPrice}" placeholder="Fon Fiyatını Giriniz!"
+                                         style="width: 90%;"/>
+                        </div>
+
+
+                        <div class="ui-inputgroup" style="margin-bottom: 10px">
+                            <div class="ui-inputgroup-addon"><i class="far fa-address-book"></i></div>
+                            <p:inputText id="founderInformation" value="#{fund_registerBean.founderInformation}"
+                                         placeholder= "Kurucu Bilgilerini giriniz!"
+                                         style="width: 90%;" />
+                        </div>
+
+                        <div style="display: flex; justify-content: center; align-items: center;">
+                            <p:commandButton  value="Kaydet" icon="pi pi-save" iconPos="right"
+                                              action="#{fund_registerBean.triggerBothFunc}"
+                                              process="@this fundName fundCode fundIsinCode fundType fundPrice founderInformation"
+                                              update="registerForm" style="margin-right: 10px; background-color: royalblue; color: white" />
+                            <p:messages id="errorMessages" showDetail="false" autoUpdate="true" closable="true" />
+
+                            <p:commandButton type="button" value="İptal" icon="pi pi-times" iconPos="right"
+                                             onclick="window.location.href = 'home.xhtml';"
+                                             styleClass="button ui-button-danger" style="margin-left: 10px;" />
+                        </div>
+                    </p:panel>
+                </h:form>
+            </div>
+
+        </h:body>
+    </ui:define>
+</ui:composition>
+</html>
+

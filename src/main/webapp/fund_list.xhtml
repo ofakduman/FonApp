@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="default_template.xhtml">
+    <ui:define name="content5">
+        <h:head>
+            <title>Fon Listesi</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    background-color: #f4f4f4;
+                    padding: -70px;
+                }
+
+                .content1 {
+                    margin: 0 auto;
+                    width: 99%;
+                }
+
+                .table-container {
+
+                    margin-top: 0px;
+                    margin-left: 0px;
+
+                }
+
+                .center-text {
+                    text-align: center;
+                }
+
+                .search-container {
+                    display: flex;
+                    justify-content: flex-end;
+                    align-items: center;
+                    margin-bottom: 10px;
+                }
+
+                .search-input {
+                    width: 200px;
+                    margin-right: 10px;
+                }
+                .fund-list-title {
+                    text-align: center;
+                    /*margin-left: 150px;*/
+                }
+
+                .smallButton {
+                    font-size: 0px;
+                    padding: 0px 0px;
+                }
+            </style>
+        </h:head>
+        <h:body>
+            <div class="content1">
+
+                <div class="center-text">
+                    <h1 class="fund-list-title">Fon Listesi</h1>
+                </div>
+                <h:form id="mainForm">
+                    <div class="search-container">
+                        <p:inputText id="searchInput" value="#{fundListBean.searchText}" placeholder="Fon ara..."
+                                     styleClass="search-input" />
+                        <p:commandButton ajax="true" value="Ara" icon="pi pi-search"
+                                         action="#{fundListBean.searchFunds()}"
+                                         update="fundTable" />
+                    </div>
+
+
+                    <div class="table-container">
+                        <p:dataTable id="fundTable" var="fund" value="#{fundListBean.fundWithPriceList}" rows="5"
+                                     paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom"
+                                     emptyMessage="No funds found">
+                            <!-- Columns -->
+                            <!-- ... (Diğer kolonlarınız) ... -->
+
+                            <!-- Columns -->
+
+                            <p:column headerText="Fon Kodu">
+                                <h:outputText value="#{fund.fundCode}" />
+                            </p:column>
+                            <p:column headerText="Fon Adı">
+                                <h:outputText value="#{fund.fundName}" />
+                            </p:column>
+
+                            <p:column headerText="Fon Tipi">
+                                <h:outputText value="#{fund.fundType}" />
+                            </p:column>
+
+                            <p:column headerText="Fon Fiyat">
+                                <h:outputText value="#{fund.currentPrice}" />
+                            </p:column>
+
+
+                            <p:column headerText="Fiyat Güncelle">
+                                <p:commandButton value="Güncelle" icon="pi pi-pencil"
+                                                 actionListener="#{fundListBean.editFund(fund)}"
+                                                 oncomplete="PF('editDialogVar').show()" update=":dlg2Form"
+                                                 styleClass="smallButton" />
+                            </p:column>
+                        </p:dataTable>
+                    </div>
+                    <p:remoteCommand name="invokeSearch" actionListener="#{fundListBean.searchFunds()}" update="fundTable" />
+
+                </h:form> <!-- Form sonu -->
+                <!-- Dialog -->
+                <p:dialog header="Fon Fiyatı Güncelle" widgetVar="editDialogVar" minHeight="40" width="500" showEffect="fade" modal="true" headerStyle="text-align:center;">
+                    <h:form id="dlg2Form">
+                        <!--                        <p:panelGrid columns="2" cellpadding="5">-->
+
+
+                        <!-- Fiyat Bilgisi -->
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <p:outputLabel for="nameInputDlg" value="Güncel Fiyat:" style="width:150px; text-align:right;" />
+                            <p:inputText id="nameInputDlg" value="#{fundListBean.selectedFundWithPrice.currentPrice}" required="true" />
+
+                        </div>
+
+
+                        <br/>
+
+
+
+                        <!-- Güncelle Butonu -->
+                        <div style="text-align: right; margin-top: 10px;">
+                            <p:commandButton value="Güncelle" action="#{fundListBean.updateFund()}"
+                                             oncomplete="if (!args.validationFailed) { PF('editDialogVar').hide(); invokeSearch(); }" />
+                        </div>
+                    </h:form>
+                </p:dialog>
+            </div>
+        </h:body>
+    </ui:define>
+</ui:composition>
+</html>

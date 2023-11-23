@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/default_template.xhtml"> <!-- Bu yolu default_template.xhtml'in yoluna göre değiştirmelisiniz -->
+
+    <ui:define name="content5">
+        <!-- Başlık kısmı -->
+        <h:head>
+            <title>Müşteri Listesi</title>
+            <style>
+                /* body stilini kaldırdık çünkü bu default_template.xhtml'de zaten tanımlı olmalıdır. */
+                *
+                .content1 {
+                    margin: 0 auto;
+                    width: 99%;
+                }
+
+                .table-container {
+                    margin-top: 0px;
+                    margin-left: 0px;
+                }
+
+                .center-text {
+                    text-align: center;
+                }
+
+                .search-container {
+                    display: flex;
+                    justify-content: flex-end;
+                    align-items: center;
+                    margin-bottom: 10px;
+                }
+
+                .search-input {
+                    width: 200px;
+                    margin-right: 10px;
+                }
+
+                .customer-list-title {
+                    text-align: center;
+                    margin-left: 0px;
+                    margin-top: -180px;
+                }
+
+                .smallButton {
+                    font-size: 0px;
+                    padding: 0px 0px;
+                }
+            </style>
+        </h:head>
+
+        <!-- İçerik kısmı -->
+        <h:form>
+            <p:panel id="customerRegister" style="width:900px;">
+                <h1>Müşteri Kayıt</h1>
+
+                <!-- İlk yarısı -->
+                <div style="float:left; width: 45%;">
+                    <div class="ui-inputgroup" style="margin-bottom: 10px">
+                        <div class="ui-inputgroup-addon"><i class="pi pi-user"></i></div>
+                        <p:inputText id="name" value="#{customer_registerBean.customer.name}" placeholder="Adınızı Giriniz!" required="true" style="width: 90%;"/>
+                    </div>
+                    <div class="ui-inputgroup" style="margin-bottom: 10px">
+                        <div class="ui-inputgroup-addon"><i class="pi pi-user"></i></div>
+                        <p:inputText id="surname" value="#{customer_registerBean.customer.surname}" placeholder="Soyadınızı Giriniz!" required="true" style="width: 90%;"/>
+                    </div>
+                    <div class="ui-inputgroup" style="margin-bottom: 10px;">
+                        <div class="ui-inputgroup-addon"><i class="pi pi-id-card"></i></div>
+                        <p:inputMask id="tc" value="#{customer_registerBean.customer.TCNO}" placeholder="TC Numaranızı Giriniz!" style="width: 90%;" mask="99999999999" validateMask="true" required="true"/>
+                    </div>
+
+
+
+                    <div class="ui-inputgroup" style="margin-bottom: 10px;">
+                        <div class="ui-inputgroup-addon"><i class="pi pi-phone"></i></div>
+                        <p:inputMask id="phoneNumber" value="${customer_registerBean.customer.phoneNumber}" placeholder="Telefon Numaranızı Giriniz!" style="width: 90%;" mask="(999) 999-9999" validateMask="true"/>
+                    </div>
+                    <div class="ui-inputgroup" style="margin-bottom: 10px">
+                        <div class="ui-inputgroup-addon"><i class="pi pi-calendar"></i></div>
+                        <p:calendar yearRange="c-100:c" navigator="true" value="#{customer_registerBean.birthDate}"   placeholder="Doğum Tarihinizi Giriniz!" />
+                    </div>
+                </div>
+
+                <!-- İkinci yarısı -->
+                <div style="float:left; width: 45%; margin-left: 5%;">
+
+                    <div class="ui-inputgroup" style="margin-bottom: 10px">
+                        <div class="ui-inputgroup-addon"><i class="pi pi-envelope"></i></div>
+                        <p:inputText id="email" value="#{customer_registerBean.customer.email}" placeholder="Email Giriniz!"  type="email" style="width: 90%;"/>
+                    </div>
+                    <div class="ui-inputgroup" style="margin-bottom: 10px">
+                        <div class="ui-inputgroup-addon"><i class="pi pi-home"></i></div>
+                        <p:inputText id="placeOfBirth" value="#{customer_registerBean.customer.placeOfBirth}" placeholder="Doğum Yeri Giriniz!" style="width: 90%;"/>
+                    </div>
+                    <div class="ui-inputgroup" style="margin-bottom: 10px;">
+                        <div class="ui-inputgroup-addon"><i class="pi pi-map-marker"></i></div>
+                        <p:selectOneMenu id="cities" value="#{cityBean.selectedCityId}" style="width: 90%; text-align: center;" label="Cities" filter="true" filterMatchMode="startsWith" panelStyle="width: 400px;" scrollHeight="250">
+                            <f:selectItem itemLabel="Yaşadığınız Şehri seçiniz!" />
+                            <f:selectItems value="#{cityBean.allCities}" var="city" itemLabel="#{city.cityName}" itemValue="#{city.id}" />
+                            <p:ajax update="@this" listener="#{cityBean.onCityChange}" />
+                        </p:selectOneMenu>
+
+                    </div>
+
+                    <div class="ui-inputgroup" style="margin-bottom: 10px;">
+                        <div class="ui-inputgroup-addon"><i class="pi pi-map" style="padding-top: 50px"></i></div>
+                        <p:inputTextarea id="adress" rows="6" cols="33" value="#{customer_registerBean.customer.address}" placeholder="Açık Adresinizi Giriniz!" style="width: 90%"/>
+                    </div>
+                </div>
+
+                <!-- Clearfix (Kullanılan float stilini temizlemek için) -->
+                <div style="clear: both;"></div>
+
+                <!-- Kaydet ve İptal butonları -->
+                <div style="display: flex; justify-content: center; align-items: center;">
+                    <p:commandButton ajax="false" value="Kaydet" icon="pi pi-save" iconPos="right"
+                                     actionListener="#{customer_registerBean.customerRegister}"
+                                     process="@this" styleClass="button ui-button-text-icon-primary"
+                                     style="background-color: royalblue; color: white"   />
+
+                    <p:commandButton type="button" value="İptal" icon="pi pi-times" iconPos="left"
+                                     onclick="window.location.href = 'home.xhtml';" styleClass="button ui-button-danger"
+                                     style="margin-left: 10px;" />
+
+                </div>
+
+            </p:panel>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

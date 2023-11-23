@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="default_template.xhtml">
+	<ui:define name="content5">
+		<h:head>
+			<title>Customer List</title>
+			<style>
+				body {
+					font-family: Arial, sans-serif;
+					background-color: #f4f4f4;
+					padding: 20px;
+				}
+
+				.content1 {
+					margin: 0 auto;
+					width: 90%;
+				}
+
+				.table-container {
+					margin-top: 20px;
+					margin-left: 250px;
+				}
+
+				.center-text {
+					text-align: center;
+				}
+
+				.search-container {
+					display: flex;
+					justify-content: flex-end;
+					align-items: center;
+					margin-bottom: 10px;
+				}
+
+				.search-input {
+					width: 200px;
+					margin-right: 10px;
+				}
+				.customer-list-title {
+					text-align: center;
+					margin-left: 150px;
+				}
+			</style>
+		</h:head>
+		<h:body>
+			<div class="content1">
+				<div class="center-text">
+					<h1 class="customer-list-title">Customer List</h1>
+				</div>
+				<h:form>
+					<div class="search-container">
+						<p:inputText id="searchInput" value="#{customerListBean.searchText}" placeholder="Müşteri ara..."
+									 styleClass="search-input" />
+						<p:commandButton ajax="true" value="Ara" icon="pi pi-search"
+										 action="#{customerListBean.searchCustomers()}"
+										 update="customerTable" />
+
+					</div>
+
+
+					<div class="table-container">
+						<p:dataTable id="customerTable" var="customer" value="#{customerListBean.filteredCustomers}" rows="10"
+									 paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom"
+									 emptyMessage="No customers found">
+							<!-- Columns -->
+							<!-- ... (Diğer kolonlarınız) ... -->
+
+							<!-- Columns -->
+
+							<p:column headerText="Müşteri Numarası">
+								<h:outputText value="#{customer.customerID}" />
+							</p:column>
+
+							<p:column headerText="Ad-Soyad">
+								<h:outputText value="#{customer.name} #{customer.surname}" />
+							</p:column>
+
+							<p:column headerText="TC Numarası">
+								<h:outputText value="#{customer.TCNO}" />
+							</p:column>
+
+							<p:column headerText="Telefon Numarası">
+								<h:outputText value="#{customer.phoneNumber}" />
+							</p:column>
+
+							<p:column headerText="Email">
+								<h:outputText value="#{customer.email}" />
+							</p:column>
+
+							<p:column headerText="Doğum Tarihi">
+								<h:outputText value="#{customer.birthDate}" />
+							</p:column>
+
+							<p:column headerText="Doğum Yeri">
+								<h:outputText value="#{customer.placeOfBirth}" />
+							</p:column>
+
+							<p:column headerText="Adres">
+								<h:outputText value="#{customer.address}" />
+							</p:column>
+
+							<p:column headerText="Güncelle">
+								<p:commandButton value="Güncelle" icon="pi pi-pencil"
+												 action="#{customerListBean.editCustomer(customer)}"
+												 update="editFormPanel" />
+							</p:column>
+						</p:dataTable>
+					</div>
+
+					<p:outputPanel id="editFormPanel">
+						<p:panel header="Müşteri Bilgilerini Güncelle" rendered="#{customerListBean.selectedCustomer != null}">
+							<!-- Edit fields here with necessary input components -->
+						</p:panel>
+					</p:outputPanel>
+
+				</h:form> <!-- Form sonu -->
+			</div>
+		</h:body>
+
+
+
+	</ui:define>
+</ui:composition>
+</html>

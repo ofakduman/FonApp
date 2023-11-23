@@ -1,0 +1,41 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="default_template.xhtml">
+
+<!--    <style>-->
+<!--        .nextDayButtonClass {-->
+<!--            position: fixed;    /* Ekranın sabit bir konumuna yerleştirir */-->
+<!--            bottom: 20px;       /* Alttan 20 piksel yukarıda */-->
+<!--            right: 20px;        /* Sağdan 20 piksel içerde */-->
+<!--            padding: 10px 20px; /* Estetik için dolgu ekler */-->
+<!--            background-color: #007BFF; /* Güzel bir mavi ton */-->
+<!--            color: white;      /* Beyaz yazı */-->
+<!--            border: none;      /* Varsayılan kenarlığı kaldırır */-->
+<!--            border-radius: 5px;/* Hafif yuvarlatılmış köşeler */-->
+<!--            cursor: pointer;   /* Üzerine gelindiğinde imleç şeklini değiştirir */-->
+<!--            font-size: 16px;   /* Daha iyi okunabilirlik için yazı boyutunu ayarlar */-->
+<!--        }-->
+
+<!--        .nextDayButtonClass:hover {-->
+<!--            background-color: #0056b3; /* Üzerine gelindiğinde daha koyu bir renk tonu */-->
+<!--        }-->
+<!--    </style>-->
+
+    <ui:define name="content5">
+        <!-- Home sayfasının içeriği buraya gelecek. -->
+        <h1>Hoşgeldiniz!</h1>
+        <p>Ana sayfanıza hoşgeldiniz.</p>
+        <!-- Diğer içerikler... -->
+
+        <!-- Button HTML -->
+        <p:commandButton value="Sonraki Gün" styleClass="nextDayButtonClass"
+                         action="#{homeDateBean.nextDay()}" style="color: white; background-color: royalblue;" />
+    </ui:define>
+
+</ui:composition>
+
+</html>

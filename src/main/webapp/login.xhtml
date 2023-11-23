@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: linear-gradient(to right, white, lightsteelblue, white);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .login-panel {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 15px 15px 15px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 700px;
+
+        }
+    </style>
+</h:head>
+
+<h:body>
+    <h:form prependId="false">
+        <p:panel styleClass="login-panel">
+
+            <h1 style="font-size: 70px;   color: #4682B4; ">Hoş Geldiniz <i class="far fa-grin"></i></h1>
+
+            <div style="display: flex; align-items: center;">
+                <div>
+                    <img src="Logo/Logo.jpeg" style="width: 200px; height: 70px; margin-left: 20px"/>
+                </div>
+                <div style="flex: 1; margin-left: 5px">
+                    <div class="ui-inputgroup" style="margin-bottom: 10px">
+                        <div class="ui-inputgroup-addon"><i class="pi pi-user"></i></div>
+                        <p:inputText id="username" name="username" value="#{loginBean.username}" placeholder="Kullanıcı Adınızı Giriniz!"
+                                     style="width: 210px"/>
+                    </div>
+
+                    <div class="ui-inputgroup" style="margin-bottom: 10px;">
+                        <div class="ui-inputgroup-addon"><i class="pi pi-shield"></i></div>
+                        <p:password id="password" name="password" value="#{loginBean.password}" placeholder="Şifrenizi Giriniz!"
+                                    style="width: 210px; margin-left: -9.5px;" toggleMask="true" redisplay="true"/>
+                    </div>
+                </div>
+            </div>
+
+            <!-- action metodu, Ajax'ı devre dışı bırakarak çalışır -->
+            <p:commandButton id="loginButton" ajax="false" icon="pi pi-play" actionListener="#{loginBean.login}"
+                             style="font-size: 15px; width: 70px; height: 70px; border-radius: 50%; color: white;
+                             background-color: royalblue"  />
+
+            <!-- Mesajlar için bir id ekledim -->
+            <!--    <p:messages id="msg" for="#{loginBean.login()}" autoUpdate="true" closable="true" />    -->
+        </p:panel>
+
+
+
+    </h:form>
+</h:body>
+
+
+</html>

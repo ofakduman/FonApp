@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+
+
+    <!--    <title>Ana Sayfa</title>-->
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right,white, lightsteelblue, white);
+            margin: 50px;
+        }
+        .panelMenu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 300px;
+            height: 100%;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+        }
+        .menuBar {
+
+
+            width: 100%;
+            position: fixed;
+            top: 0;
+            z-index: 0;
+        }
+
+         /*... diğer stil bilgileri ...*/
+        .contentWrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: calc(100vh - 50px); /* menubar'ın yüksekliğini çıkardık */
+            margin-left: 300px; /* panelMenu'nun genişliğini çıkardık */
+        }
+
+        .gradient-bg {
+            background: linear-gradient(to right, navy, white);
+            /* Soldan sağa doğru geçişli renk */
+            /* İlk renk: navy (lacivert), İkinci renk: white (beyaz) */
+            /* İstediğiniz renkleri ve geçiş yönünü ayarlayabilirsiniz */
+            color: black; /* Metin rengi */
+            padding: 10px;
+        }
+
+
+
+
+
+    </style>
+</h:head>
+<h:body>
+    <div class="card">
+        <p:growl>
+            <p:autoUpdate/>
+        </p:growl>
+
+
+       <div style=" background-color: royalblue;">
+           <!-- Panel Menu (Sol Taraftaki Menü) -->
+           <h:form id="sideMenuForm">
+               <div class="panelMenu">
+                   <img src="/Logo/Logo.jpeg" style="width: 250px; height: 70px; margin-bottom: 25px;"/>
+
+                   <p:button value="DigitalCreators" styleClass="ui-button-raised ui-button-flat"
+                             style="text-align: center;  margin-left: 25px; color: #4682B4; background-color: white;
+                         margin-bottom: 15px; margin-right: auto; font-size: 25px;font-weight: bold;"/>
+
+                   <p:panelMenu>
+                       <p:submenu  label="Personel Tanımlama">
+                           <p:menuitem value="Yeni Personel Kayıt" url="personnel_registration.xhtml" icon="pi pi-plus"/>
+                           <p:menuitem value="Personel Listesi" url="personnel_list.xhtml" icon="fas fa-list-ul"/>
+                       </p:submenu>
+
+                       <p:submenu label="Müşteri Tanımlama" style="font-size: 25px">
+                           <p:menuitem value="Yeni Müşteri Kayıt" url="customer_registration.xhtml" icon="pi pi-plus"/>
+                           <p:menuitem value="Müşteri Listesi" url="customer_list.xhtml" icon="fas fa-list-ul"/>
+                       </p:submenu>
+
+                       <p:submenu label="Fon Tanımlama">
+                           <p:menuitem value="Yeni Fon Kayıt" url="fund_registration.xhtml" icon="pi pi-plus"/>
+                           <p:menuitem value="Fon Listesi" url="fund_list.xhtml" icon="fas fa-list-ul"/>
+                       </p:submenu>
+
+                       <p:submenu label="Fon Alım-Satım">
+                           <p:menuitem value="Fon İşlemleri" url="fund_transaction.xhtml" icon="pi pi-plus"/>
+                           <p:menuitem value="Fon Alım-Satım Liste" url="fund_trade_list.xhtml" icon="fas fa-list-ul"/>
+
+                       </p:submenu>
+
+                       <p:submenu label="Portföy Bilgileri">
+                           <p:menuitem value="Portföy Sorgula" url="portfolio_info.xhtml" icon="pi pi-plus"/>
+                       </p:submenu>
+
+                       <p:submenu label="Nakit Akış">
+                           <p:menuitem value="Nakit Akış İşlem" url="cash_flow.xhtml" icon="pi pi-plus"/>
+                           <p:menuitem value="Nakit Akış Liste" url="cash_flow_list.xhtml" icon="fas fa-list-ul"/>
+                       </p:submenu>
+                   </p:panelMenu>
+               </div>
+           </h:form>
+       </div>
+
+
+
+
+        <!--  style="background: linear-gradient(to right,white, lightsteelblue, white);"    -->
+
+        <!-- Menu Bar (Üst Taraftaki Menü) -->
+        <h:form id="topMenuForm">
+
+            <div class="menuBar" >
+                <p:menubar  style="background: linear-gradient(to right,white, royalblue, white);">
+                    <f:facet name="options">
+                        <p:button icon="pi pi-home" styleClass="rounded-button"
+                                  style="margin-right: 730px; color:white; background-color: royalblue"
+                                  outcome="/home.xhtml"/>
+
+                        <h:outputText value="#{homeDateBean.nowDate}" style="margin-right: 25px"/>
+
+                        <p:commandButton icon="pi pi-sign-out" value="Çıkış" action="#{sessionBean.logout()}"
+                                         styleClass="ui-button-info" style="margin-right: 50px; color: white;
+                                         background-color: royalblue"/>
+                    </f:facet>
+                </p:menubar>
+            </div>
+        </h:form>
+
+        <div class="contentWrapper">
+            <ui:insert name="content5">
+                <!-- Şablonu kullanan sayfaların içeriği bu kısma gelecek. -->
+            </ui:insert>
+        </div>
+    </div>
+</h:body>
+</html>

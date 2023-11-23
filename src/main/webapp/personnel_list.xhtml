@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="default_template.xhtml">
+    <ui:define name="content5">
+        <title>Personel Listesi</title>
+        <style>
+
+            .content1 {
+                margin: 0 auto;
+                width: 99%;
+            }
+
+            .table-container {
+                margin-top: 0px;
+                margin-left: 0px;
+            }
+
+            .center-text {
+                text-align: center;
+            }
+
+            .search-container {
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                margin-bottom: 10px;
+            }
+
+            .search-input {
+                width: 200px;
+                margin-right: 10px;
+            }
+
+
+            .smallButton {
+                font-size: 0px;
+                padding: 0px 0px;
+            }
+        </style>
+
+
+        <div class="content1">
+            <div class="center-text">
+                <h1 class="personnel-list-title">Personel Listesi</h1>
+            </div>
+            <h:form id="mainForm">
+                <div class="search-container">
+                    <p:inputText id="searchInput" value="#{personnelListBean.searchText}" placeholder="Personel ara..."
+                                 styleClass="search-input" />
+                    <p:commandButton ajax="true" value="Ara" icon="pi pi-search"
+                                     action="#{personnelListBean.searchPersonals()}"
+                                     update="personnelTable" style="background-color: royalblue; color: white" />
+                </div>
+
+                <div class="table-container">
+                    <p:dataTable id="personnelTable" var="personnel" value="#{personnelListBean.filteredPersonals}" rows="6"
+                                 paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom"
+                                 emptyMessage="No personnel found...">
+                        <p:column headerText="Ad-Soyad">
+                            <h:outputText value="#{personnel.name} #{personnel.surname}" />
+                        </p:column>
+                        <p:column headerText="Kullanıcı Adı">
+                            <h:outputText value="#{personnel.personnelUsername} "  />
+                        </p:column>
+
+                        <p:column headerText="Personel Görevi">
+                            <h:outputText value="#{personnel.personnelDuty} " />
+                        </p:column>
+
+                        <p:column headerText="Güncelle">
+                            <p:commandButton value="Güncelle" icon="pi pi-pencil"
+                                             actionListener="#{personnelListBean.editPersonnel(personnel)}"
+                                             oncomplete="PF('editDialogVar').show()" update=":dlg2Form"
+                                             styleClass="smallButton"
+                                             rendered="#{personnelListBean.shouldShowButtonForPersonnel(personnel)}" />
+
+                        </p:column>
+
+                    </p:dataTable>
+                </div>
+                <p:remoteCommand name="invokeSearch" actionListener="#{personnelListBean.searchPersonals()}" update="personnelTable" />
+            </h:form> <!-- Form sonu -->
+        </div>
+        <p:dialog header="Personel Bilgilerini Güncelle" widgetVar="editDialogVar" minHeight="40" width="500" showEffect="fade" modal="true" headerStyle="text-align:center;">
+            <h:form id="dlg2Form">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <p:outputLabel for="nameInputDlg" value="Ad:" style="width:150px; text-align:right;" />
+                    <p:inputText id="nameInputDlg" value="#{personnelListBean.selectedPersonnel.name}" required="true" />
+                </div>
+
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <p:outputLabel for="surNameInputDlg" value="Soy Ad:" style="width:150px; text-align:right;" />
+                    <p:inputText id="surNameInputDlg" value="#{personnelListBean.selectedPersonnel.surname}" required="true" />
+                </div>
+
+                <p:outputPanel rendered="#{personnelListBean.canEditUsername(personnelListBean.selectedPersonnel)}">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <p:outputLabel for="usernameInputDlg" value="Kullanıcı Adı:" style="width:150px; text-align:right;" />
+                        <p:inputText id="usernameInputDlg" value="#{personnelListBean.new_username}" placeholder="#{personnelListBean.selectedPersonnel.personnelUsername}" required="false" />
+                    </div>
+                </p:outputPanel>
+
+
+
+
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <p:outputLabel for="pwd1" value="Şifre   (güncellenmeyekse boş bırak):" style="width:150px; text-align:right;" />
+                    <div class="col">
+                        <p:password id="pwd1" value="#{personnelListBean.plain_password}" match="pwd2" label="Password 1" required="false"/>
+                    </div>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <p:outputLabel for="pwd2" value="Şifre   (Tekrarı):" style="width:150px; text-align:right;" />
+                    <div class="col">
+                        <p:password id="pwd2" value="#{personnelListBean.plain_password2}" label="Password 2" required="false"/>
+                    </div>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <p:outputLabel for="tcnoDlg" value="TCno:" style="width:150px; text-align:right;" />
+                    <p:inputMask id="tcnoDlg" value="#{personnelListBean.selectedPersonnel.tcNo}"  placeholder="TC Numaranızı Giriniz!" mask="99999999999" validateMask="true" required="true" />
+                </div>
+
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <p:outputLabel for="mailDlg" value="Mail:" style="width:150px; text-align:right;" />
+                    <p:inputText id="mailDlg" value="#{personnelListBean.selectedPersonnel.mail}" required="true" />
+                </div>
+
+                <p:outputPanel rendered="#{personnelListBean.canEditUsername(personnelListBean.selectedPersonnel)}">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <p:outputLabel for="dutyDlg" value="Personel Görev:" style="width:150px; text-align:right;" />
+                        <p:inputText id="dutyDlg" value="#{personnelListBean.selectedPersonnel.personnelDuty}" required="true" />
+                    </div>
+                </p:outputPanel>
+
+                <!-- Güncelle Butonu -->
+                <div style="text-align: right; margin-top: 10px;">
+                    <p:commandButton value="Güncelle" action="#{personnelListBean.updatePersonnel()}"
+                                     oncomplete="if (!args.validationFailed) { PF('editDialogVar').hide(); invokeSearch(); }"
+                                     style="background-color: royalblue; color: white;"   />
+                </div>
+
+            </h:form>
+        </p:dialog>
+    </ui:define>
+</ui:composition>
+</html>
